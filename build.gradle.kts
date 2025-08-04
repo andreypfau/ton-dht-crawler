@@ -3,11 +3,14 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import java.util.Locale
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
 }
+
+version = "1.0"
 
 repositories {
     mavenLocal()
@@ -62,6 +65,37 @@ fun KotlinMultiplatformExtension.configureSourceSetsLayout() {
                 kotlin.srcDir("test$suffix")
                 resources.srcDir("testResources$suffix")
             }
+        }
+    }
+}
+
+createArchiveTask("linuxArm64")
+createArchiveTask("linuxX64")
+createArchiveTask("macosArm64")
+createArchiveTask("macosX64")
+createArchiveTask("mingwX64")
+
+fun createArchiveTask(target: String): TaskProvider<Zip> {
+    val buildType = "release"
+    val execName = project.name
+    val versionName = "v${project.version}"
+    val targetBinaryPath = layout.buildDirectory.file("bin/$target/${buildType}Executable/$execName.kexe")
+
+    return tasks.register<Zip>("package${target.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}") {
+        group = "distribution"
+        description = "Packages $target binary into archive"
+        archiveBaseName.set("$execName-$target")
+        archiveVersion.set(versionName)
+        destinationDirectory.set(layout.buildDirectory.dir("dist"))
+
+        val dirName = "$execName-$versionName"
+        into(dirName) {
+            from(targetBinaryPath) {
+                fileMode = 0b111101101 // 755
+                rename { execName.removeSuffix(".kexe") }   // strip .kexe if needed
+            }
+            from("LICENSE")
+            from("README.md")
         }
     }
 }
