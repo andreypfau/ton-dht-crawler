@@ -1,0 +1,22 @@
+[versions]
+kotlin = "2.2.0"
+kotlinxDatetime = "0.6.2"
+kotlinxSerializationJSON = "1.8.1"
+kotlinxCoroutines = "1.10.2"
+kotlinxIoCore = "0.8.0"
+ton = "1.0.0-PRERELEASE+1"
+
+[libraries]
+kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
+kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinxIoCore = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinxIoCore" }
+tonDht = { module = "org.ton.kotlin:ton-kotlin-dht", version.ref = "ton" }
+clikt = { module = "com.github.ajalt.clikt:clikt", version = "5.0.3" }
+
+[bundles]
+kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
+
+[plugins]
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
