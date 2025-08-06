@@ -73,13 +73,13 @@ createArchiveTask("linuxArm64")
 createArchiveTask("linuxX64")
 createArchiveTask("macosArm64")
 createArchiveTask("macosX64")
-createArchiveTask("mingwX64")
+createArchiveTask("mingwX64", "exe")
 
-fun createArchiveTask(target: String): TaskProvider<Zip> {
+fun createArchiveTask(target: String, extension: String = "kexe"): TaskProvider<Zip> {
     val buildType = "release"
     val execName = project.name
     val versionName = "v${project.version}"
-    val targetBinaryPath = layout.buildDirectory.file("bin/$target/${buildType}Executable/$execName.kexe")
+    val targetBinaryPath = layout.buildDirectory.file("bin/$target/${buildType}Executable/$execName.$extension")
 
     return tasks.register<Zip>("package${target.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}") {
         group = "distribution"
