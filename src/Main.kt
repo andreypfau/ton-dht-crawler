@@ -1,6 +1,7 @@
 @file:OptIn(ExperimentalTime::class)
 
-import clikt.path
+package io.github.andreypfau.tondhtcrawler
+
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.main
@@ -10,6 +11,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.parameters.types.uint
+import io.github.andreypfau.tondhtcrawler.clikt.path
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import kotlinx.coroutines.Deferred

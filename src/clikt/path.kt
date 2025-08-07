@@ -1,4 +1,4 @@
-package clikt
+package io.github.andreypfau.tondhtcrawler.clikt
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.Context

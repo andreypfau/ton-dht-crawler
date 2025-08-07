@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
-version = "1.0"
+version = "1.0.1"
 
 repositories {
     mavenLocal()
@@ -35,7 +35,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.clikt)
-                implementation(libs.kotlinxIoCore)
+                implementation(libs.kotlinxSerialization)
                 implementation(libs.tonDht)
             }
         }
@@ -78,17 +78,16 @@ createArchiveTask("mingwX64", "exe")
 fun createArchiveTask(target: String, extension: String = "kexe"): TaskProvider<Zip> {
     val buildType = "release"
     val execName = project.name
-    val versionName = "v${project.version}"
     val targetBinaryPath = layout.buildDirectory.file("bin/$target/${buildType}Executable/$execName.$extension")
 
     return tasks.register<Zip>("package${target.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}") {
         group = "distribution"
         description = "Packages $target binary into archive"
-        archiveBaseName.set("$execName-$target")
-        archiveVersion.set(versionName)
+        archiveBaseName.set("$execName-${project.version}-$target")
+        archiveVersion.set("")
         destinationDirectory.set(layout.buildDirectory.dir("dist"))
 
-        val dirName = "$execName-$versionName"
+        val dirName = "$execName-${project.version}-$target"
         into(dirName) {
             from(targetBinaryPath) {
                 fileMode = 0b111101101 // 755
